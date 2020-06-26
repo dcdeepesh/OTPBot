@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="OTP Bot" default="package">
+    <path id="classpath">
+        <fileset dir="lib">
+            <include name="**/*.jar"/>
+        </fileset>
+    </path>
+    
+    <target name="init">
+        <mkdir dir="build/classes"/>
+        <mkdir dir="dist"/>
+    </target>
+
+    <target name="compile" depends="init"
+            description="Compiles the source to produce class files">
+        <javac srcdir="src" destdir="build/classes">
+            <classpath refid="classpath"/>
+        </javac>
+    </target>
+
+    <target name="package" depends="compile"
+            description="packages class files into archives">
+        <jar basedir="build/classes" destfile="dist/OTPBot.jar">
+            <manifest>
+                <attribute name="Main-Class" value="dec.daemon.otpbot.OTPBot"/>
+            </manifest>
+            <zipgroupfileset dir="lib" includes="*.jar"/>
+        </jar>
+    </target>
+
+    <target name="clean" description="Cleans the project build output">
+        <delete dir="build"/>
+        <delete dir="dist"/>
+    </target>
+
+    <target name="run" depends="package">
+        <java jar="dist/OTPBot.jar" fork="yes"/>
+    </target>
+</project>
